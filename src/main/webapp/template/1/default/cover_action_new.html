@@ -1,0 +1,97 @@
+[#escape x as (x)!?html]
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>${node.name}_${site.fullNameOrName}${global.customs['poweredby']}</title>
+<meta name="keywords" content="${node.keywords}"/>
+<meta name="description" content="${node.description}"/>
+<link href="_files/global.css" rel="stylesheet"/>
+<link href="_files/style.css" rel="stylesheet"/>
+<link href="_files/bootstrap.min.css" rel="stylesheet"/>
+<link href="_files/customer.css" rel="stylesheet"/>
+[#include 'inc_js.html'/]
+</head>
+<body>
+[#include 'inc_header_new.html'/]
+
+<div class="w center">
+	<div style="padding:10px 5px;">您的位置:&nbsp; [#list node.hierarchy as n]<a href="${n.url}" class="a c-desc">${n.name}</a>[#if n_has_next] > [/#if][/#list]</div>
+
+	<div class="left w1">
+		<div>
+			<div class="box3">
+				<div class="head b c-node fs14"></div>
+			</div>
+			<ul id="cateList" class="list-unstyled" style="padding:10px;">
+				[@NodeList parentId=node.id;list]
+				[#list list as node]
+				<li style="height:28px;line-height:28px;"><a class="a fs14" href="${node.url}" target="pageFrame" title="${node.title}">${substring(node.title,18,'...')}</a></li>
+				[/#list]
+				[/@NodeList]
+				[#if node.id==133]
+					<li style="height:28px;line-height:28px;"><a class="btn btn-primary" href="javascript:void(0)" id="questionBtn">我要提问</a></li>
+				[/#if]
+			</ul>
+		</div>
+	</div>
+
+	<!-- 明细分页 -->
+	<iframe  width="662px" height="600px" frameborder="0" scrolling="no" id="pageFrame" name="pageFrame"  >
+
+	</iframe>
+
+	<div class="clear"></div>
+</div>
+
+
+[#include 'inc_footer.html'/]
+<script src="/static/js/customer/lib/bootstrap/bootstrap.js"></script>
+
+<script>
+
+	$(function () {
+        /**
+		 * frame高度自适应
+         */
+        var changeFrameHeight = function(){
+            var $tabDiv = $("#pageFrame").contents().find("#tabDiv");
+            var height = $tabDiv.height() + 10;
+            $("#pageFrame").attr("height",height);
+        };
+
+        /**
+		 * 初始化frame的src
+         */
+        var initFrameUrl = function () {
+            var $firstA = $("#cateList").find("li a").eq(0);
+            var defaultUrl = $firstA.attr("href");
+            console.log(defaultUrl);
+            $("#pageFrame").attr("src",defaultUrl);
+        };
+
+        window.onresize=function(){
+            changeFrameHeight();
+
+        };
+
+        /**
+		 * frame加载的时候自动调整高度
+         */
+        $("#pageFrame").load(function () {
+            changeFrameHeight();
+        });
+
+
+
+        /**
+		 * 文档加载完毕初始化frame的src
+         */
+        initFrameUrl();
+
+    });
+</script>
+
+</body>
+</html>
+[/#escape]

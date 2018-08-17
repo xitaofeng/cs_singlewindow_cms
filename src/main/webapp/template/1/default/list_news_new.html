@@ -1,0 +1,40 @@
+[#escape x as (x)!?html]
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<link href="_files/global.css" rel="stylesheet"/>
+<link href="_files/style.css" rel="stylesheet"/>
+[#include 'inc_js.html'/]
+</head>
+<body>
+
+
+<div class="left w2" style="border-top:2px solid #458fce;" id="pageDiv">
+	[@InfoPage nodeId=node.id pageSize='5';pagedList]
+	<ul class="list-unstyled mt10">
+		[#list pagedList.content as info]
+		<li style="padding:15px 0;border-bottom:1px dotted #ccc;">
+			[#if info.withImage]
+			<div class="left" style="padding:3px 10px 3px 0;width:22%;">
+				<a href="${info.url}" target="_blank"><img src="${info.smallImageUrl}" width="138" height="92"/></a>
+			</div>
+			[/#if]
+			<div class="left" style="[#if info.withImage]width:75%;[/#if]">
+				<div>[@A bean=info class='ff-yh fs18 a c-000' target="_blank"/]</div>
+				<div class="" style="line-height:1.8;padding:2px 0;color:#818181;">${substring(info.description,100,'...')}</div>
+				<div class="" style="padding:2px;color:#a1a1a1;">${info.publishDate?string('yyyy-MM-dd HH:mm:ss')}</div>
+			</div>
+			<div class="clear"></div>
+		</li>
+		[/#list]
+	</ul>
+	<table class="center mt20"><tr><td>
+		[#include 'page.html'/]
+	</td></tr></table>
+	[/@InfoPage]
+</div>
+
+</body>
+</html>
+[/#escape]

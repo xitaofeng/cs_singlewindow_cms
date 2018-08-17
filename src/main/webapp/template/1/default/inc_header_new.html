@@ -1,0 +1,56 @@
+[#escape x as (x)!?html]
+<!-- 顶部开始 -->
+<!--<div style="background-color:#fafafa;border-bottom:1px solid #ebebeb;">
+	<div class="w center c999" style="height:28px;line-height:28px;">
+		<div class="left">
+		</div>
+		<div class="right">
+			[#if username??]
+			欢迎光临:${username} | <a id="foreLogoutBtn"  href="javascript:void(0)">注销</a>
+			<script>
+				$(function () {
+					$("#foreLogoutBtn").click(function () {
+						$.ajax({
+							url : '${ctx}/foreLogout',
+							dataType : 'json'
+						}).done(function (response) {
+							if(response.code == 0){
+							    alert("注销成功!");
+							    window.top.location.href = window.top.location.href;
+							}
+                        })
+                    });
+                })
+			</script>
+			[#else]
+			当前访客身份：游客 [ <a class="topa" href="${ctx}/login2">登录</a> ]
+			[/#if]
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>-->
+<!-- 顶部结束 -->
+<!-- LOGO开始 -->
+<div class="w center" style="margin-top: 20px;margin-bottom: 40px;">
+	<div class="leftLogo" >
+		<a class="block" style="width:332px;height:41px;background:url(_files/img/swLogo.png) no-repeat;" href="${ctx}/"></a>
+		<div class="clear"></div>
+	</div>
+	<!-- 导航 -->
+	<div class="rightNav" >
+		<ul >
+			<!--<li><a href="${ctx}/">首页</a></li>-->
+			<li><a href="http://www.cssinglewindow.com">首页</a></li>
+			[@NodeList;list]
+			[#list list as n]
+			<li><a href="${n.url}">${n.name}</a></li>
+			[/#list]
+			[/@NodeList]
+		</ul>
+	</div>
+	<div class="clear"></div>
+</div>
+
+<!-- LOGO结束 -->
+
+[/#escape]
