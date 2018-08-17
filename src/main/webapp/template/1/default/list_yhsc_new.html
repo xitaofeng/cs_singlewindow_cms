@@ -1,0 +1,104 @@
+[#escape x as (x)!?html]
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<link href="_files/global.css" rel="stylesheet"/>
+<link href="_files/style.css" rel="stylesheet"/>
+[#include 'inc_js.html'/]
+</head>
+<body>
+
+
+
+
+</body>
+</html>
+[/#escape]
+
+[#escape x as (x)!?html]
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8"/>
+	<title>${node.name}_${site.fullNameOrName}${global.customs['poweredby']}</title>
+	<meta name="keywords" content="${node.keywords}"/>
+	<meta name="description" content="${node.description}"/>
+	<link href="_files/global.css" rel="stylesheet"/>
+	<link href="_files/style.css" rel="stylesheet"/>
+	<link href="_files/bootstrap.min.css" rel="stylesheet"/>
+	<link href="_files/customer.css" rel="stylesheet"/>
+	[#include 'inc_js.html'/]
+</head>
+<body>
+[#include 'inc_header_new.html'/]
+
+<div class="w center">
+	<div style="padding:10px 5px;">您的位置:&nbsp; [#list node.hierarchy as n]<a href="${n.url}" class="a c-desc">${n.name}</a>[#if n_has_next] > [/#if][/#list]</div>
+
+	<div class="left w1">
+		<div>
+			<div class="box3" style="border-bottom: none;background-color: white">
+				<div class="head b c-node fs14"></div>
+			</div>
+			<!--<ul id="" class="list-unstyled">
+				[@NodeList parentId=node.parent.id;list]
+				[#list list as node]
+				<li style="height:28px;line-height:28px;"><a class="a fs14" href="${node.url}" target="pageFrame" title="${node.title}">${substring(node.title,18,'...')}</a></li>
+				[/#list]
+				[/@NodeList]
+			</ul>-->
+			<div>
+				[@NodeList parentId=node.parent.id;list]
+				[#list list as n]
+				<a class="list-group-item [#if n.id==node.id]active[/#if]" href="${n.url}"  title="${n.title}">${substring(n.title,18,'...')}</a>
+				[/#list]
+				[/@NodeList]
+			</div>
+		</div>
+	</div>
+
+	<!-- 右侧明细 -->
+	<div class="left  w2" style="border-top:2px solid #458fce;">
+		[@InfoPage nodeId=node.id pageSize='5';pagedList]
+		<ul class="ml40 list-unstyled mt10">
+			[#list pagedList.content as info]
+			<li style="padding:15px 0;border-bottom:1px dotted #ccc;">
+				[#if info.withImage]
+				<div class="left" style="padding:3px 10px 3px 0;width:22%;">
+					<a href="${info.url}" target="_blank"><img src="${info.smallImageUrl}" width="138" height="92"/></a>
+				</div>
+				[/#if]
+				<div class="left" style="[#if info.withImage]width:75%;[/#if]">
+					<div>[@A bean=info class='ff-yh fs18 a c-000' target="_blank"/]</div>
+					<div class="" style="line-height:1.8;padding:2px 0;color:#818181;">${substring(info.description,100,'...')}</div>
+					<div class="" style="padding:2px;color:#a1a1a1;">${info.publishDate?string('yyyy-MM-dd HH:mm:ss')}</div>
+				</div>
+				<div class="clear"></div>
+			</li>
+			[/#list]
+		</ul>
+		<table class="center mt20"><tr><td>
+			[#include 'page.html'/]
+		</td></tr></table>
+		[/@InfoPage]
+	</div>
+
+	<div class="clear"></div>
+</div>
+
+
+[#include 'inc_footer.html'/]
+<script src="/static/js/customer/lib/bootstrap/bootstrap.js"></script>
+
+<script>
+
+    $(function () {
+
+
+    });
+</script>
+
+</body>
+</html>
+[/#escape]

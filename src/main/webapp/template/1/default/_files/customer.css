@@ -1,0 +1,158 @@
+.headBar{
+    /*margin-top: 10px;
+    margin-bottom: 20px;*/
+    margin: 10px auto 20px;
+    width:1500px;
+    border: 1px solid black;
+}
+
+
+
+.leftLogo{
+    float: left;
+    margin-left: 55px;
+}
+
+.rightNav{
+    float: left;
+    margin-left:30px;
+}
+
+.rightNav ul{
+    margin-top: 20px;
+    list-style: none;
+}
+
+.rightNav ul li{
+    float: left;
+    margin-left: 20px;
+    font-size: 14px;
+    font-weight: bolder;
+}
+
+.rightNav ul li a{
+    color: black;
+}
+
+.content-body{
+    margin: 10px auto 20px;
+    width:1500px;
+    border: 1px solid black;
+}
+
+
+.row1{
+    height: 1000px;
+    overflow: auto;
+}
+
+.row1_left{
+    width: 800px;
+    float: left;
+}
+.row1_left_head{
+    height: 20px;
+}
+
+.row1_left_left{
+    width:250px;
+}
+
+.item-box{
+    display: block;
+    height: 140px;
+    margin-top: 10px;
+}
+
+.link-item{
+    float: left;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    display: block;
+    width: 230px;
+    height: 50px;
+    line-height: 50px;
+    background-color: rgb(77,162,252);
+    margin: 0 0 20px 15px;
+}
+
+.corpDept {
+    width: 930px;
+    height: 60px;
+    margin: 10px auto;
+    padding: 0;
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+
+.corpDept li{
+    width: 140px;
+    height: 52px;
+    float: left;
+    text-align: center;
+    list-style: none;
+    display: list-item;
+}
+
+.corpDept li a {
+    display: block;
+    text-decoration: none;
+
+}
+
+
+.corpDept li a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+}
+
+.form-horizontal .form-group{
+    margin-left: -55px;
+    margin-right: 10px;
+}
+
+.star{
+    color: red;
+}
+
+#tabContent{
+    margin-top: 20px;
+    /*border: 1px solid black;*/
+}
+
+.bTitle{
+    margin-top: 30px;
+    border-bottom: 1px solid black;
+}
+
+.lxwm_big{
+    font-family: 微软雅黑;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.lxwm_item{
+    margin-bottom: 40px;
+    overflow: auto;
+}
+
+.lxwm_item img{
+    float: left;
+    margin-right: 40px;
+}
+
+.lxwm_right_content{
+    float: left;
+}
+
+#div_foot{margin: 40px auto 0; height: 140px; background-color: #323232;}
+#s_code1{width: 72px; height: 72px; float: left; margin-top: 30px; margin-left: 100px;}
+#s_code2{width: 72px; height: 72px; float: left; margin-top: 30px; padding-left: 20px;}
+#foot_text{margin-right: 40px; padding-top: 30px; text-align: right;}
+.class_text{font-family: "微软雅黑"; font-size: 14px; color: #bebebe; letter-spacing: 25;}

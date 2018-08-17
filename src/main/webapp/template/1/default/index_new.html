@@ -1,0 +1,450 @@
+[#escape x as (x)!?html]
+<!doctype html>
+<html lang="zh-CN">
+<head>
+[#if site.url != site.urlMobile]
+<script>
+//生成静态HTML时，需要使用js判断是否为手机端访问，并跳转到手机端地址
+var ua = navigator.userAgent;var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),isAndroid = ua.match(/(Android)\s+([\d.]+)/),isMobile = isIphone || isAndroid;
+if(isMobile) location.href = "${site.urlMobile}";
+</script>
+[/#if]
+<meta charset="utf-8"/>
+<title>${site.fullNameOrName}${global.customs['poweredby']}</title>
+<meta name="keywords" content="${node.keywords}"/>
+<meta name="description" content="${node.description}"/>
+<link href="_files/global.css" rel="stylesheet"/>
+<link href="_files/style.css" rel="stylesheet"/>
+<link href="_files/bootstrap.min.css" rel="stylesheet"/>
+<link href="_files/customer.css" rel="stylesheet"/>
+[#include 'inc_js.html'/]
+</head>
+<body>
+[#include 'inc_header_new.html'/]
+
+<!-- banner -->
+<div style="margin: 10px auto; width: 980px;">
+	<img width="978px"  src="/news/static/img/head_background.png" />
+</div>
+
+<div class="w center mt10">
+
+	<!--<div class="left w1">
+		[@InfoList attr='focusPort' limit='4';list]
+		<div id="focus" class="focus" style="width:318px;height:212px;border:1px solid transparent;">
+			<ul class="focus-content" style="width:2000px;">
+				[#list list as info]
+				<li class="content-item">
+					<a class="focusa fs14" href="${info.url}" title="${info.title}" target="_blank">
+						<img src="${info.attrImageUrl}" width="318" height="212" alt="${info.title}"/>
+						<div class="item-title">
+							<span class="title-text">${substring(info.title,20,'...')}</span>
+						</div>
+					</a>
+				</li>
+				[/#list]
+			</ul>
+			<div class="focus-page">
+				[#list list as info]
+				<a class="c-fff a-none page-num[#if info_index==0] curr[/#if]" href="${info.url}" target="_blank" title="${info.title}">${info_index+1}</a>
+				[/#list]
+			</div>
+			<div class="clear"></div>
+		</div>
+		[#if list?size > 1]
+		<script>
+            $(function() {
+                var interval = 5000;
+                var speed = 500;
+                var maxFocus = ${list?size};
+                var currFocus = 0;
+                var targetFocus = 1;
+                var $fc = $("#focus .focus-content");
+                var $fp = $("#focus .focus-page");
+                var fsTimeout;
+                function focusSwitch(targetFocus) {
+                    if(targetFocus>=maxFocus) {
+                        targetFocus = 0;
+                    }
+                    if(targetFocus<0) {
+                        targetFocus = maxFocus-1;
+                    }
+                    $fc.animate({left:"-"+$fc.children(":first").width()*targetFocus+"px"},speed);
+                    $fp.children().eq(currFocus).removeClass("curr");
+                    $fp.children().eq(targetFocus).addClass("curr");
+                    currFocus = targetFocus;
+                }
+                function focusSwitchAuto() {
+                    targetFocus = currFocus + 1;
+                    focusSwitch(targetFocus);
+                    fsTimeout = setTimeout(focusSwitchAuto,interval);
+                }
+                function focusSwitchNext() {
+                    clearTimeout(fsTimeout);
+                    $fc.stop(true);
+                    focusSwitch(currFocus+1);
+                    fsTimeout = setTimeout(focusSwitchAuto,interval);
+                }
+                function focusSwitchPrev() {
+                    clearTimeout(fsTimeout);
+                    $fc.stop(true);
+                    focusSwitch(currFocus-1);
+                    fsTimeout = setTimeout(focusSwitchAuto,interval);
+                }
+                $fc.hover(function() {
+                    clearTimeout(fsTimeout);
+                },function() {
+                    fsTimeout = setTimeout(focusSwitchAuto,interval);
+                });
+                $fp.children().each(function() {
+                    $(this).mouseover(function() {
+                        clearTimeout(fsTimeout);
+                        $fc.stop(true);
+                        focusSwitch($(this).index());
+                    });
+                });
+                fsTimeout = setTimeout(focusSwitchAuto,interval);
+            });
+		</script>
+		[/#if]
+		[/@InfoList]
+		<div class="mt10">
+			<div class="box3">
+				<div class="head b c-node fs14">口岸公告</div>
+			</div>
+			<ul class="list-unstyled" style="padding:10px;">
+				[@InfoList node='kagg' limit='7';list]
+				[#list list as info]
+				<li style="height:28px;line-height:28px;"><span class="left text-center [#if info_index<3]rank-top[#else]rank-normal[/#if]" style="margin-right:10px;">${info_index+1}</span><a class="a fs14" href="${info.url}" target="_blank" title="${info.title}">${substring(info.title,18,'...')}</a></li>
+				[/#list]
+				[/@InfoList]
+			</ul>
+		</div>
+	</div>
+
+	<div class="left w1 ml20">
+		<div class="box4">
+			&lt;!&ndash;<a class="b c-node fs14 a-hover" href="${getNode('flfg').url}">法律法规</a>&ndash;&gt;
+			<div class="head b c-node fs14">法律法规</div>
+		</div>
+
+		<ul class="mt10 info-list list-unstyled" style="border-top:1px dotted #d2e1f1;padding:10px 0;">
+			[@InfoList node='flfg' isIncludeChildren='true' limit='14';list]
+			[#list list as info]
+			<li class="item ico-point-blue">
+				<a class="fs14 [#if info_index=4 || info_index=9 || info.strong] c-infoem a-hover b[#else]a[/#if]" href="${info.url}" target="_blank" title="${info.title}">${substring(info.title,20,'...')}</a>
+			</li>
+			[#if info_index = 3 || info_index = 8]
+			<li class="spacing"></li>
+			[/#if]
+			[/#list]
+			[/@InfoList]
+			<div class="clear"></div>
+		</ul>
+	</div>-->
+
+	<!-- 第一排左边 -->
+	<div class="left w2">
+		<div class="box4" style="border-top:0;border-bottom: 1px solid black;">
+			<!--<a class="b c-node fs14 a-hover" href="${getNode('zzxw').url}">政策新闻</a>-->
+			<div class="head b c-node fs14">
+				政策新闻
+				<!--<a class="right" href="${ctx}/node/120">更多>>></a>-->
+				<a class="right" href="${getNode('zzxw').url}">更多>>></a>
+			</div>
+		</div>
+
+		<div class="left mt30 w1">
+			[@InfoList attr='focusPolicyNews' limit='4';list]
+			<div id="focus" class="focus" style="width:318px;height:212px;border:1px solid transparent;">
+				<ul class="focus-content" style="width:2000px;">
+					[#list list as info]
+					<li class="content-item">
+						<a class="focusa fs14" href="${info.url}" title="${info.title}" target="_blank">
+							<img src="${info.attrImageUrl}" width="318" height="212" alt="${info.title}"/>
+							<div class="item-title">
+								<span class="title-text">${substring(info.title,20,'...')}</span>
+							</div>
+						</a>
+					</li>
+					[/#list]
+				</ul>
+				<div class="focus-page">
+					[#list list as info]
+					<a class="c-fff a-none page-num[#if info_index==0] curr[/#if]" href="${info.url}" target="_blank" title="${info.title}">${info_index+1}</a>
+					[/#list]
+				</div>
+				<div class="clear"></div>
+			</div>
+			[#if list?size > 1]
+			<script>
+                $(function() {
+                    var interval = 5000;
+                    var speed = 500;
+                    var maxFocus = ${list?size};
+                    var currFocus = 0;
+                    var targetFocus = 1;
+                    var $fc = $("#focus .focus-content");
+                    var $fp = $("#focus .focus-page");
+                    var fsTimeout;
+                    function focusSwitch(targetFocus) {
+                        if(targetFocus>=maxFocus) {
+                            targetFocus = 0;
+                        }
+                        if(targetFocus<0) {
+                            targetFocus = maxFocus-1;
+                        }
+                        $fc.animate({left:"-"+$fc.children(":first").width()*targetFocus+"px"},speed);
+                        $fp.children().eq(currFocus).removeClass("curr");
+                        $fp.children().eq(targetFocus).addClass("curr");
+                        currFocus = targetFocus;
+                    }
+                    function focusSwitchAuto() {
+                        targetFocus = currFocus + 1;
+                        focusSwitch(targetFocus);
+                        fsTimeout = setTimeout(focusSwitchAuto,interval);
+                    }
+                    function focusSwitchNext() {
+                        clearTimeout(fsTimeout);
+                        $fc.stop(true);
+                        focusSwitch(currFocus+1);
+                        fsTimeout = setTimeout(focusSwitchAuto,interval);
+                    }
+                    function focusSwitchPrev() {
+                        clearTimeout(fsTimeout);
+                        $fc.stop(true);
+                        focusSwitch(currFocus-1);
+                        fsTimeout = setTimeout(focusSwitchAuto,interval);
+                    }
+                    $fc.hover(function() {
+                        clearTimeout(fsTimeout);
+                    },function() {
+                        fsTimeout = setTimeout(focusSwitchAuto,interval);
+                    });
+                    $fp.children().each(function() {
+                        $(this).mouseover(function() {
+                            clearTimeout(fsTimeout);
+                            $fc.stop(true);
+                            focusSwitch($(this).index());
+                        });
+                    });
+                    fsTimeout = setTimeout(focusSwitchAuto,interval);
+                });
+			</script>
+			[/#if]
+			[/@InfoList]
+		</div>
+
+		<div class="left mt30 w1 ml20">
+			<ul class="left info-list list-unstyled" >
+				[@InfoList node='zzxw' isIncludeChildren='true' limit='8';list]
+				[#list list as info]
+				<li class="item ico-point-blue" style="width: 320px;">
+					<a class="fs14 a" href="${info.url}" target="_blank" title="${info.title}">
+						${substring(info.title,16,'...')}
+					</a>
+					<span style="display: inline-block" class="right" >${info.publishDate?string('MM-dd')}</span>
+				</li>
+				[/#list]
+				[/@InfoList]
+				<div class="clear"></div>
+			</ul>
+		</div>
+
+	</div>
+
+	<!-- 第一排右边 -->
+	<div class="right w1">
+		<div class="box4" style="border-top:0;border-bottom: 1px solid black;">
+			<div class="head b c-node fs14">
+				通知公告
+				<a class="right" href="${getNode('kagg').url}">更多>>></a>
+			</div>
+		</div>
+
+		<div class="right mt30 w1 ml20">
+			<ul class="info-list list-unstyled" >
+				[@InfoList node='kagg' isIncludeChildren='true' limit='8';list]
+				[#list list as info]
+				<li class="item ico-point-blue" style="width: 320px;">
+					<a class="fs14 a" href="${info.url}" target="_blank" title="${info.title}">
+						${substring(info.title,16,'...')}
+					</a>
+					<span style="display: inline-block" class="right" >${info.publishDate?string('MM-dd')}</span>
+				</li>
+				[/#list]
+				[/@InfoList]
+				<div class="clear"></div>
+			</ul>
+		</div>
+	</div>
+
+	<div class="clear"></div>
+
+	<!-- 第二排左边 -->
+	<div class="left w1">
+		<div class="box4" style="border-top:0;border-bottom: 1px solid black;">
+			<div class="head b c-node fs14">
+				政策法规
+				<a class="right" href="${getNode('flfg').url}">更多>>></a>
+			</div>
+		</div>
+
+		<div class="left mt30 w1">
+			<ul class="info-list list-unstyled" >
+				[@InfoList node='flfg' isIncludeChildren='true' limit='8';list]
+				[#list list as info]
+				<li class="item ico-point-blue" style="width: 320px;">
+					<a class="fs14 a" href="${info.url}" target="_blank" title="${info.title}">
+						${substring(info.title,18,'...')}
+					</a>
+					<span style="display: inline-block" class="right" >${info.publishDate?string('MM-dd')}</span>
+				</li>
+				[/#list]
+				[/@InfoList]
+				<div class="clear"></div>
+			</ul>
+		</div>
+	</div>
+
+	<!-- 第二排中间 -->
+	<div class="left ml20 w1">
+		<div class="box4" style="border-top:0;border-bottom: 1px solid black;">
+			<div class="head b c-node fs14">
+				政策解读
+				<a class="right" href="${getNode('zcjd').url}">更多>>></a>
+			</div>
+		</div>
+
+		<div class="left  mt30 w1">
+			<ul class="info-list list-unstyled" >
+				[@InfoList node='zcjd' isIncludeChildren='true' limit='8';list]
+				[#list list as info]
+				<li class="item ico-point-blue" style="width: 320px;">
+					<a class="fs14 a" href="${info.url}" target="_blank" title="${info.title}">
+						${substring(info.title,18,'...')}
+					</a>
+					<span style="display: inline-block" class="right" >${info.publishDate?string('MM-dd')}</span>
+				</li>
+				[/#list]
+				[/@InfoList]
+				<div class="clear"></div>
+			</ul>
+		</div>
+	</div>
+
+	<!-- 第二排右边 -->
+	<div class="right w1">
+		<div class="box4" style="border-top:0;border-bottom: 1px solid black;">
+			<div class="head b c-node fs14">
+				口岸动态
+				<a class="right" href="${getNode('kadt').url}">更多>>></a>
+			</div>
+		</div>
+
+		<div class="right mt30 w1 ml20">
+			<ul class="info-list list-unstyled" >
+				[@InfoList node='kadt' isIncludeChildren='true' limit='8';list]
+				[#list list as info]
+				<li class="item ico-point-blue" style="width: 320px;">
+					<a class="fs14 a" href="${info.url}" target="_blank" title="${info.title}">
+						${substring(info.title,18,'...')}
+					</a>
+					<span style="display: inline-block" class="right" >${info.publishDate?string('MM-dd')}</span>
+				</li>
+				[/#list]
+				[/@InfoList]
+				<div class="clear"></div>
+			</ul>
+		</div>
+	</div>
+
+
+	<div class="clear"></div>
+
+</div>
+
+<div class="w center mt10">
+
+	<div class="left w490">
+		<div class="box4" style="border-top:0;border-bottom: 1px solid black;">
+			<div class="head b c-node fs14">
+				用户手册
+				<a class="right" href="${getNode('yhsc').url}">更多>>></a>
+			</div>
+		</div>
+
+		<div class="left mt30 w490 ">
+			<ul class="info-list list-unstyled" >
+				[@InfoList node='yhsc' isIncludeChildren='true' limit='8';list]
+				[#list list as info]
+				<li class="item ico-point-blue" >
+					<a class="fs14 a" href="${info.url}" target="_blank" title="${info.title}">
+						${substring(info.title,20,'...')}
+					</a>
+					<span style="display: inline-block" class="right" >${info.publishDate?string('MM-dd')}</span>
+				</li>
+				[/#list]
+				[/@InfoList]
+				<div class="clear"></div>
+			</ul>
+		</div>
+	</div>
+
+	<div class="right w490">
+		<div class="box4" style="border-top:0;border-bottom: 1px solid black;">
+			<div class="head b c-node fs14">
+				下载中心
+				<a class="right" href="${getNode('xzzx').url}">更多>>></a>
+			</div>
+		</div>
+
+		<div class="left mt30 w490 ">
+			<ul class="info-list list-unstyled" >
+				[@InfoList node='xzzx' isIncludeChildren='true' limit='8';list]
+				[#list list as info]
+				<li class="item ico-point-blue" >
+					<a class="fs14 a" href="${info.url}" target="_blank" title="${info.title}">
+						${substring(info.title,20,'...')}
+					</a>
+					<span style="display: inline-block" class="right" >${info.publishDate?string('MM-dd')}</span>
+				</li>
+				[/#list]
+				[/@InfoList]
+				<div class="clear"></div>
+			</ul>
+		</div>
+	</div>
+
+
+	<div class="clear"></div>
+</div>
+
+<!-- 办事指南 -->
+<!--<div class="w center mt10">
+	<div class="box1">
+		<div class="head">
+			<a class="b c-node fs14 a-hover" href="#">办事指南</a>
+			<a class="b c-node fs14 a-hover right" style="margin-right: 20px;" href="#">更多>></a>
+		</div>
+	</div>
+
+	<div class="item-box">
+		<a href="#" class="link-item" target="_blank"><i class="ico-tongguan"></i>海关办事指南</a>
+		<a href="#" class="link-item" target="_blank"><i class="ico-tongguan"></i>海关办事指南</a>
+		<a href="#" class="link-item" target="_blank"><i class="ico-tongguan"></i>海关办事指南</a>
+		<a href="#" class="link-item" target="_blank"><i class="ico-tongguan"></i>海关办事指南</a>
+		<a href="#" class="link-item" target="_blank"><i class="ico-tongguan"></i>海关办事指南</a>
+		<a href="#" class="link-item" target="_blank"><i class="ico-tongguan"></i>海关办事指南</a>
+		<a href="#" class="link-item" target="_blank"><i class="ico-tongguan"></i>海关办事指南</a>
+		<a href="#" class="link-item" target="_blank"><i class="ico-tongguan"></i>海关办事指南</a>
+	</div>
+
+</div>-->
+
+<!-- 政务大厅 -->
+<!--[#include 'inc_zwdt_new.html'/]-->
+[#include 'inc_footer.html'/]
+</body>
+</html>
+[/#escape]

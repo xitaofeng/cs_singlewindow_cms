@@ -1,0 +1,70 @@
+[#escape x as (x)!?html]
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<link href="_files/global.css" rel="stylesheet"/>
+<link href="_files/style.css" rel="stylesheet"/>
+<link href="_files/bootstrap.min.css" rel="stylesheet"/>
+<link href="_files/customer.css" rel="stylesheet"/>
+[#include 'inc_js.html'/]
+<script src="/static/js/customer/lib/bootstrap/bootstrap.js"></script>
+</head>
+<body>
+
+
+<div class="left w2" style="border-top:2px solid #458fce;height: 800px" id="tabDiv">
+	<ul id="myTab" class="nav nav-tabs">
+		[@NodeList parentId=node.id; list]
+			[#list list as node]
+				<li>
+					<a href="#content${node.id}" data-toggle="tab">
+						${node.name}
+					</a>
+				</li>
+			[/#list]
+		[/@NodeList]
+	</ul>
+
+	<div id="tabContent" class="tab-content">
+		<!-- 根据每一季id获取每一期列表 -->
+		[@NodeList parentId=node.id; list]
+			[#list list as node]
+				<div class="tab-pane fade" id="content${node.id}">
+					<!-- 根据每一期id获取每一期中的node列表 -->
+					[@NodeList parentId=node.id; nodeListInMeiYiQi]
+						[#list nodeListInMeiYiQi as nodeInMeiYiQi ]
+							<!--${nodeInMeiYiQi.name}-->
+							<div>
+								<div class="bTitle" >
+									<!-- 每一期中各个node的标题 -->
+									<div class="head b c-node fs14" style="color: black;">${nodeInMeiYiQi.name}</div>
+								</div>
+								<ul class="list-unstyled" style="padding:20px; ">
+									<!-- 根据每一期中node的id获取对应的文章列表 -->
+									[@InfoList nodeId=nodeInMeiYiQi.id; list4MeiYiQiNode]
+										[#list list4MeiYiQiNode as info]
+											<!-- ${substring(info.title,18,'...')} -->
+											<li style="height:28px;line-height:28px;"><a class="a fs14" style="color: #08c;" href="${info.url}" target="_blank" title="${info.title}">${info.title}</a></li>
+										[/#list]
+									[/@InfoList]
+								</ul>
+							</div>
+						[/#list]
+					[/@NodeList]
+				</div>
+			[/#list]
+		[/@NodeList]
+	</div>
+</div>
+<script>
+	$(function () {
+//		$("#tabDiv").css("height",$("#myTab").height() + $("#tabContent").height() + 10);
+
+		$("#myTab li").eq(0).addClass("active");
+		$("#tabContent div").eq(0).addClass("in").addClass("active");
+    })
+</script>
+</body>
+</html>
+[/#escape]

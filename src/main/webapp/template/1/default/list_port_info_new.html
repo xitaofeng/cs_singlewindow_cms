@@ -1,0 +1,76 @@
+[#escape x as (x)!?html]
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>${node.name}[#if node.parent??]_${node.parent.name}[/#if]_${site.fullNameOrName}${global.customs['poweredby']}</title>
+<meta name="keywords" content="${node.keywords}"/>
+<meta name="description" content="${node.description}"/>
+<link href="_files/global.css" rel="stylesheet"/>
+<link href="_files/style.css" rel="stylesheet"/>
+<link href="_files/bootstrap.min.css" rel="stylesheet"/>
+<link href="_files/customer.css" rel="stylesheet"/>
+[#include 'inc_js.html'/]
+</head>
+<body>
+[#include 'inc_header_new.html'/]
+<div class="w center" >
+	<div style="padding:10px 5px;">您的位置:&nbsp; [#list node.hierarchy as n]<a href="${n.url}" class="a c-desc">${n.name}</a>[#if n_has_next] > [/#if][/#list]</div>
+	<!--<div class="left w2" style="border-top:2px solid #458fce; width: 980px">
+		[@InfoPage nodeId=node.id pageSize='15';pagedList]
+		<ul class="list-unstyled mt10">
+			[#list pagedList.content as info]
+			<li style="padding:15px 0;border-bottom:1px dotted #ccc;">
+				[#if info.withImage]
+				<div class="left" style="padding:3px 10px 3px 0;width:22%;">
+					<a href="${info.url}" target="_blank"><img src="${info.smallImageUrl}" width="138" height="92"/></a>
+				</div>
+				[/#if]
+				<div class="left" style="[#if info.withImage]width:75%;[/#if]">
+					<div>[@A bean=info class='ff-yh fs18 a c-000' target="_blank"/]</div>
+					<div class="" style="line-height:1.8;padding:2px 0;color:#818181;">${substring(info.description,100,'...')}</div>
+					<div class="" style="padding:2px;color:#a1a1a1;">${info.publishDate?string('yyyy-MM-dd HH:mm:ss')}</div>
+				</div>
+				<div class="clear"></div>
+			</li>
+			[/#list]
+		</ul>
+		<table class="center mt20"><tr><td>
+			[#include 'page.html'/]
+		</td></tr></table>
+		[/@InfoPage]
+	</div>-->
+
+	<div class="w" style="border-top:2px solid #458fce;">
+		<h4 style="text-align: center;margin-top: 20px;">长沙口岸介绍</h4>
+		<p style="width: 80%; margin: 20px auto 20px;text-indent: 2em">
+			1904年（光绪三十年）7月长沙正式开埠，属全国80处“约开商埠”之一，成为我省最主要的对外通商口岸。长沙现有一个国家一类航空口岸即黄花国际机场航空口岸，等级为4E级，是我国十大区域性国际航空枢纽之一；两个二类口岸，长沙霞凝水运口岸和长沙霞凝铁路口岸，其中霞凝水运口岸是长沙及其周边地区唯一的大型综合性港口，承担着长沙及湘中地区60%以上的内支线集装箱装卸任务；霞凝铁路口岸开通了长沙至深圳的“五定班列”和长沙至中亚、长沙至俄罗斯、长沙至欧洲的中欧班列；一个保税物流中心（B型）——长沙金霞保税物流中心，规划面积1500亩，总投资约15亿元人民币，2009年正式封关运行，是湖南扩大对外开放的重要标志；一个国际邮件监管中心——长沙邮政国际快件监管中心，是我省唯一的国际邮件互换局兼交换站，负责长沙海关关区范围内进出口国际邮件的接收、转发及指定进出口国际邮件总包的接收、封发；三个出口烟花海关监管点，其中湖南华洋仓储已建成运营，是我市第一家出口烟花海关监管场所，景美仓储、速福仓码已通过海关验收并对外开展业务。正在建设的有湖南电子口岸（长沙）信息平台、长沙黄花综合保税区、长沙跨境贸易电子商务服务平台。全市进出口市场覆盖167个国家和地区，初步形成了一、二类口岸齐全、客货运功能完善、水陆空运输方式配套，与我市开放型经济发展基本相适应的立体口岸开放体系。
+		</p>
+		<div class="clear"></div>
+		[@InfoList node='kajs' limit='6'; list]
+		[#list list as info]
+			<div class="w1 left mt30 [#if info_index!=0 || info_index!=3]ml10[/#if]" style="border: 1px solid black">
+				<a href="${info.url}" style="text-decoration: none;color: black">
+					<img width="318px" height="200px" src="${info.smallImageUrl}" />
+					<p style="padding: 10px">
+						<h4>${info.title}</h4>
+						${substring(info.description,40,'...')}
+					</p>
+				</a>
+			</div>
+			[#if info_index==2]
+				<div class="clear"></div>
+			[/#if]
+		[/#list]
+		[/@InfoList]
+
+	</div>
+
+
+	<div class="clear"></div>
+</div>
+
+[#include 'inc_footer.html'/]
+</body>
+</html>
+[/#escape]

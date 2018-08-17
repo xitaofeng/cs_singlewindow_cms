@@ -1,0 +1,238 @@
+[#escape x as (x)!?html]
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>${node.name}_${site.fullNameOrName}${global.customs['poweredby']}</title>
+<meta name="keywords" content="${node.keywords}"/>
+<meta name="description" content="${node.description}"/>
+<link href="_files/global.css" rel="stylesheet"/>
+<link href="_files/style.css" rel="stylesheet"/>
+<link href="/static/vendor/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<link href="_files/bootstrap.min.css" rel="stylesheet"/>
+<link href="_files/customer.css" rel="stylesheet"/>
+[#include 'inc_js.html'/]
+</head>
+<body>
+[#include 'inc_header_new.html'/]
+
+<div class="w center">
+	<div style="padding:10px 5px;">您的位置:&nbsp; [#list node.hierarchy as n]<a href="${n.url}" class="a c-desc">${n.name}</a>[#if n_has_next] > [/#if][/#list]</div>
+
+	<div class="left w1">
+		<div>
+			<div class="box3">
+				<div class="head b c-node fs14"></div>
+			</div>
+			<ul id="cateList" class="list-unstyled" style="padding:10px;">
+				[@NodeList parentId=node.id;list]
+				[#list list as node]
+				<li style="height:28px;line-height:28px;"><a class="a fs14" href="${node.url}" target="pageFrame" title="${node.title}">${substring(node.title,18,'...')}</a></li>
+				[/#list]
+				[/@NodeList]
+				[#if node.id==133]
+					<li style="height:28px;line-height:28px;"><a class="btn btn-primary" href="javascript:void(0)" id="questionBtn">我要提问</a></li>
+				[/#if]
+			</ul>
+		</div>
+	</div>
+
+	<!-- 明细分页 -->
+	<iframe  width="662px" height="600px" frameborder="0" scrolling="no" id="pageFrame" name="pageFrame"  >
+
+	</iframe>
+
+	<div class="clear"></div>
+</div>
+
+<!-- 提问modal -->
+<div id="questionModal" class="modal fade bs-example-modal-lg in" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" >
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+
+			<div class="modal-header" >
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title" id="detailRoleModalTitle"  >新增咨询:</h4>
+			</div>
+			<!-- style="text-align: center" -->
+			<div class="modal-body" >
+
+				<form id="submitQuestionForm" class="form-horizontal">
+					<input type="hidden" name="queryNodeType" value="0">
+					<input type="hidden" name="strong" value="FALSE">
+					<input type="hidden" name="em" value="FALSE">
+					<input type="hidden" name="remainDescription" value="TRUE">
+					<input type="hidden" name="priority" value="0">
+					<input type="hidden" name="author" value="${username}">
+					<input type="hidden" name="customs_text_editor_type" value="ueditor">
+					<input type="hidden" name="draft" value="FALSE">
+					<div class="form-group">
+						<label  class="col-sm-2 control-label"><span class="star">*</span>咨询分类</label>
+						<div class="col-sm-4">
+							<select class="form-control" name="nodeId">
+								[@NodeList parentId=node.id;list]
+								[#list list as node]
+								<option value="${node.id}">${node.title}</option>
+								[/#list]
+								[/@NodeList]
+							</select>
+						</div>
+
+						<label  class="col-sm-2 control-label"><span class="star">*</span>咨询标题</label>
+						<div class="col-sm-4">
+							<input type="text" class="form-control" name="title" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label  class="col-sm-2 control-label"><span class="star">*</span>发布时间</label>
+						<div class="col-sm-4">
+							<input readonly="readonly" type="text" class="form-control" name="publishDate" onclick="WdatePicker({dateFmt:'yyyy-MM-ddTHH:mm:ss'});" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label  class="col-sm-2 control-label"><span class="star">*</span>咨询内容</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" name="clobs_text" ></textarea>
+						</div>
+					</div>
+
+
+
+					<div class="form-group">
+						<a style="margin-right: 10px" class="btn btn-sm btn-primary pull-right" id="submitBtn">确定</a>
+						<a style="margin-right: 10px" class="btn btn-sm btn-danger pull-right" id="cancelBtn">取消</a>
+					</div>
+				</form>
+
+
+
+			</div>
+
+		</div>
+	</div>
+</div>
+
+[#include 'inc_footer.html'/]
+<script src="/static/js/customer/lib/bootstrap/bootstrap.js"></script>
+<script src="/static/js/customer/lib/bootstrap/modal.js"></script>
+<script src="/static/vendor/My97DatePicker/cn_WdatePicker.js"></script>
+<script src="/static/vendor/jquery-validation/jquery-validation.min.js"></script>
+<script src="/static/js/jquery.validation_zh_CN.js"></script>
+
+<script>
+
+	$(function () {
+        /**
+		 * frame高度自适应
+         */
+        var changeFrameHeight = function(){
+            var pageDiv = $("#pageFrame").contents().find("#pageDiv");
+            var height = pageDiv.height() + 10;
+            $("#pageFrame").attr("height",height);
+        };
+
+        /**
+		 * 初始化frame的src
+         */
+        var initFrameUrl = function () {
+            var $firstA = $("#cateList").find("li a").eq(0);
+            var defaultUrl = $firstA.attr("href");
+            console.log(defaultUrl);
+            $("#pageFrame").attr("src",defaultUrl);
+        };
+
+        window.onresize=function(){
+            changeFrameHeight();
+
+        };
+
+        /**
+		 * frame加载的时候自动调整高度
+         */
+        $("#pageFrame").load(function () {
+            changeFrameHeight();
+        });
+
+		/**
+		 * 表单验证
+		 * */
+        $("#submitQuestionForm").validate({
+            rules : {
+                title : {required : true},
+                publishDate : {required : true},
+                clobs_text : {required : true}
+
+			},
+            messages : {
+                title : {required : "请输入标题"},
+                publishDate : {required : "请输入发布时间"},
+                clobs_text : {required : "请输入咨询内容"}
+			},
+            submitHandler : function () {
+
+                $.ajax({
+					url : '${ctx}/info/submitQuestion',
+					data : $("#submitQuestionForm").serialize(),
+					type : 'post',
+					dataType : 'json'
+				}).done(function (response) {
+					console.log(response);
+					if(response.code == 0){
+						alert("提问成功!");
+					}else {
+					    alert("提问发生异常:" + response.message);
+					}
+                    $("#questionModal").modal('hide');
+                }).fail(function (xhr, errText) {
+					console.log(errText);
+                })
+			}
+		});
+
+
+        /**
+		 * 点击提问按钮
+		 * */
+        $("#questionBtn").click(function () {
+            $.ajax({
+                url : '${ctx}/checkForeLogin',
+				dataType : 'json'
+            }).done(function (response) {
+                if(response.code == 0){
+                    $("#questionModal").modal();
+                }else {
+                    alert("请登录后再进行提问");
+                }
+            }).fail(function (xhr, errText) {
+
+            });
+        });
+
+        /**
+		 * 点击取消
+		 * */
+        $("#cancelBtn").click(function () {
+
+            $("#questionModal").modal('hide');
+        });
+
+        /**
+		 * 点击确定
+		 * */
+        $("#submitBtn").click(function () {
+			$("#submitQuestionForm").submit();
+        });
+
+        /**
+		 * 文档加载完毕初始化frame的src
+         */
+        initFrameUrl();
+
+    });
+</script>
+
+</body>
+</html>
+[/#escape]

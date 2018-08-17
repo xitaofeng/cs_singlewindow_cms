@@ -1,0 +1,106 @@
+[#escape x as (x)!?html]
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <title>${title}_${node.name}_${site.name}${global.customs['poweredby']}</title>
+    <meta name="keywords" content="${info.keywords}"/>
+    <meta name="description" content="${info.description}"/>
+    <link href="_files/global.css" rel="stylesheet"/>
+    <link href="_files/style.css" rel="stylesheet"/>
+    <link href="_files/bootstrap.min.css" rel="stylesheet"/>
+    <link href="_files/customer.css" rel="stylesheet"/>
+    [#include 'inc_js.html'/]
+</head>
+<body>
+[#include 'inc_header_new.html'/]
+<div class="w center">
+    <div style="padding:10px 5px;">您的位置:&nbsp; [#list node.hierarchy as n]<a href="${n.url}"
+                                                                             class="a c-desc">${n.name}</a> > [/#list]正文
+    </div>
+    <div class="left w2" style="width: 980px">
+        <h1 class="info-title" style="border-top:2px solid #458fce;">[#noescape]${bbcode(title)}[/#noescape]</h1>
+        <div class="c-666" style="padding:0 20px 20px 20px;text-align:center;border-bottom:1px dotted #458fce;">
+            <span class="info-detail">${info.publishDate?string('yyyy-MM-dd HH:mm')}</span>
+            [#if info.sourceUrl??]
+            <span class="info-detail"><a href="${info.sourceUrl}" target="_blank"
+                                         class="a-hover c-666">${info.source}</a></span>
+            [#else]
+            <span class="info-detail">${info.source}</span>
+            [/#if]
+            <span class="info-detail">${info.author!info.creator.realName!info.creator.username}</span>
+            <span class="info-detail"><span id="info_views"></span>次阅读</span>
+            <script type="text/javascript">
+                $("#info_views").load("${dy}/info_views/${info.id}?d=" + new Date() * 1);
+            </script>
+            [#if info.getCommentStatus(user,groups)!=0]
+            <a href="${ctx}/comment?fid=${info.id}" class="info-detail c-666 a-hover" target="_blank"><span
+                    id="info_comments"></span>条评论</a>
+            <script type="text/javascript">
+                $("#info_comments").load("${dy}/info_comments/${info.id}?d=" + new Date() * 1);
+            </script>
+            [/#if]
+            <script src="${dy}/app?template=info_favorites&id=${info.id}&d=" +new Date()*1></script>
+        </div>
+        <div class="info-text mt20">
+            [#noescape]${text}[/#noescape]
+        </div>
+        <table class="center mt20">
+            <tr>
+                <td>
+                    [#if pagedList.totalPages>1]
+                    [#include 'page.html'/]
+                    [/#if]
+                </td>
+            </tr>
+        </table>
+
+        <!--评论 -->
+        <!--<div id="commentDiv" class="mt20"></div>
+        <script type="text/javascript">
+            $("#commentDiv").load("${dy}/comment_list?fid=${info.id}&url=${url?url}&d="+new Date()*1);
+        </script>-->
+
+
+        <ul class="mt20 list-unstyled fs14" style="line-height:28px;">
+            [@InfoPrev id=info.id;bean]
+            [#if bean??]
+            <li><span class="b c-000">上一条：</span> <a href="${bean.url}" class="a">${bean.title!}</a> <span
+                    class="fs12 c-999 ml5">${bean.publishDate?string('yyyy-MM-dd')}</span></li>
+            [#else]
+            <li><span class="b c-000">上一条：</span> <span>没有了</span></li>
+            [/#if]
+            [/@InfoPrev]
+            [@InfoNext id=info.id;i]
+            [#if i??]
+            <li><span class="b c-000">下一条：</span> <a href="${i.url}" class="a">${i.title!}</a> <span
+                    class="fs12 c-999 ml5">${i.publishDate?string('yyyy-MM-dd')}</span></li>
+            [#else]
+            <li><span class="b c-000">下一条：</span> <span>没有了</span></li>
+            [/#if]
+            [/@InfoNext ]
+        </ul>
+        <!-- 相关新闻 -->
+        <!--<div class="mt20">
+            <div class="fs16" style="height:26px;border-bottom:1px solid #e8e8e8;">
+                <div class="left ff-yh" style="height:26px;border-bottom:1px solid #56abee;color:#56abee;">相关新闻</div>
+                <div class="clear"></div>
+            </div>
+            [@InfoFulltextList q=info.title excludeId=info.id limit=5;list]
+            <ul class="list-unstyled info-list fs14 mt10">
+                [#list list as fulltextInfo]
+                <li class="item ico-point-blue" >[@A bean=fulltextInfo target="_blank" class="a"/] <span class="fs12 c-999 ml5">${fulltextInfo.publishDate?string('yyyy-MM-dd')}</span></li>
+                [/#list]
+            </ul>
+            [/@InfoFulltextList]
+        </div>-->
+
+
+    </div>
+
+    <div class="clear"></div>
+</div>
+[#include 'inc_footer.html'/]
+</body>
+</html>
+[/#escape]
